@@ -19,6 +19,3 @@ def solution(src, dst):
         for p in next_positions(pos):
             if p == dst: return moves + 1
             queue.put((moves + 1, p))
-
-assert(solution(0, 1) == 3)
-assert(solution(19, 36) == 1)
