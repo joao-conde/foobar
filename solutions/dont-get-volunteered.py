@@ -2,12 +2,6 @@ from Queue import PriorityQueue
 
 DELTAS = [(2, 1), (2, -1), (-2, 1), (-2, -1), (1, 2), (1, -2), (-1, 2), (-1, -2)]
 
-def next_positions(src):
-    (x, y) = (src // 8, src % 8)
-    ps = [(x + dx, y + dy) for (dx, dy) in DELTAS]
-    ps = [x * 8 + y for (x, y) in ps if x >= 0 and x < 8 and y >= 0 and y < 8]
-    return ps
-
 def solution(src, dst):
     if src == dst: return 0
 
@@ -19,3 +13,9 @@ def solution(src, dst):
         for p in next_positions(pos):
             if p == dst: return moves + 1
             queue.put((moves + 1, p))
+
+def next_positions(src):
+    (x, y) = (src // 8, src % 8)
+    ps = [(x + dx, y + dy) for (dx, dy) in DELTAS]
+    ps = [x * 8 + y for (x, y) in ps if x >= 0 and x < 8 and y >= 0 and y < 8]
+    return ps
