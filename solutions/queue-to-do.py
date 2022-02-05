@@ -1,13 +1,11 @@
 def solution(start, length):
-    id = start
-    checksum = 0
-    for skip in range(length):
-        for i in range(length - skip):
-            checksum ^= (id + i)
-        id += length
+    res = 0
+    for i in range(length):
+        left = start + length * i
+        right = left + (length - i) - 1
+        res ^= xor_from_zero(right) ^ xor_from_zero(left - 1)
+    return res
 
-    return checksum
-
-assert(solution(0, 3) == 2)
-assert(solution(17, 4) == 14)
-assert(solution(2, 1) == 2)
+def xor_from_zero(a):
+    m = [a, 1, a + 1, 0]
+    return m[a % 4]
