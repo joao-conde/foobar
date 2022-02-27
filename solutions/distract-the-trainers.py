@@ -19,9 +19,9 @@ def generate_graph(l):
 
 def blossom_matching(g):
     matched = 0
-    checks = len(g[max(g, key=lambda key: len(g[key]))])
+    checks = len(g[max(g, key = lambda key: len(g[key]))])
     while len(g) > 1 and checks >= 1:
-        init_mw_node = min(g, key=lambda key: len(g[key]))
+        init_mw_node = min(g, key = lambda key: len(g[key]))
         if (len(g[init_mw_node])) < 1 :
             del g[init_mw_node]
         else:
@@ -42,5 +42,5 @@ def blossom_matching(g):
             del g[temp_sec_min[1]]
             matched += 2
         if len(g) > 1:
-            checks = len(g[max(g, key=lambda key: len(g[key]))])
+            checks = len(g[max(g, key = lambda key: len(g[key]))])
     return matched
