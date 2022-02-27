@@ -21,9 +21,9 @@ def solution(bananas):
     return len(bananas) - cnt
 
 def loops(i, j):
-    n_tilde = i + j
-    while n_tilde % 2 == 0: n_tilde /= 2
-    return (i % n_tilde) != 0
+    n = i + j
+    while n % 2 == 0: n /= 2
+    return (i % n) != 0
 
 print(solution([1, 1]))
 print(solution([1, 7, 3, 21, 13, 19]))
