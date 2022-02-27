@@ -21,20 +21,9 @@ def solution(bananas):
     return len(bananas) - cnt
 
 def loops(i, j):
-    x, y = min(i, j), max(i, j)
-    seen = set((x, y))
-
-    while x != y and (x, y) not in seen:
-        seen.add((x, y))
-
-        # update values
-        y -= x
-        x *= 2
-
-        # swap min/max values
-        x, y = min(x, y), max(x, y)
-
-    return (x,y) in seen
+    n_tilde = i + j
+    while n_tilde % 2 == 0: n_tilde /= 2
+    return (i % n_tilde) != 0
 
 print(solution([1, 1]))
 print(solution([1, 7, 3, 21, 13, 19]))
