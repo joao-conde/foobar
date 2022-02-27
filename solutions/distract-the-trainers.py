@@ -44,6 +44,3 @@ def blossom_matching(g):
         if len(g) > 1:
             checks = len(g[max(g, key=lambda key: len(g[key]))])
     return matched
-
-print(solution([1, 1]))
-print(solution([1, 7, 3, 21, 13, 19]))
