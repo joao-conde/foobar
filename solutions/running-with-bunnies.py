@@ -1,15 +1,38 @@
+from itertools import permutations
+
 def solution(times, times_limit):
-    bunnies = [x + 1 for x in range(len(times) - 2)]
+    n_bunnies = len(times) - 2
+    bunnies = [x for x in range(1, n_bunnies + 1)]
+
+    if has_negative_cycle(times):
+        return [x for x in range(1, n_bunnies)]
 
     distances = [bellman_ford(times, src) for src in range(len(times))]
-    if has_negative_cycle(times):
-        return range(len(times) - 2)
+    # try to rescue maximum bunnies first then
+    # try less and less until none can be saved
+    for i in range(n_bunnies, 0, -1):
+        # find the bunny permutations to test them all
+        for perm in permutations(bunnies, i):
+            # if it is feasible, this is the maximum
+            # amount of bunnies we can save
+            time = path_time(perm, distances)
+            if time <= times_limit:
+                return [x - 1 for x in sorted(perm)]
+    return []
 
-    return bunnies
+def has_negative_cycle(graph):
+    n_nodes = len(graph)
+    distances = graph[0]
+    for j in range(n_nodes):
+        for k in range(n_nodes):
+            weight = graph[j][k]
+            if distances[j] + weight < distances[k]:
+                return True
+    return False
 
 def bellman_ford(graph, src):
     n_nodes = len(graph)
-    distances = [float("inf")] * len(graph)
+    distances = [float("inf")] * n_nodes
     distances[src] = 0
 
     # as many iterations as there are nodes (at max)
@@ -26,15 +49,19 @@ def bellman_ford(graph, src):
 
     return distances
 
-def has_negative_cycle(graph):
-    n_nodes = len(graph)
-    distances = graph[0]
-    for j in range(n_nodes):
-        for k in range(n_nodes):
-            weight = graph[j][k]
-            if distances[j] + weight < distances[k]:
-                return True
-    return False
+def path_time(path, distances):
+    # add times for the transitions from the start
+    # to the first bunny and from the last to the bulkhead
+    first_bunny, last_bunny = path[0], path[-1]
+    start, bulkhead = 0, len(distances) - 1
+    time = distances[start][first_bunny] + distances[last_bunny][bulkhead]
+
+    # add the times of jumping from bunny to bunny
+    for i in range(1, len(path)):
+        src, dst = path[i - 1], path[i]
+        time += distances[src][dst]
+
+    return time
 
 print(solution([
     [0, 2, 2, 2, -1],
