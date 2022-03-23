@@ -4,10 +4,10 @@ def solution(times, times_limit):
     n_bunnies = len(times) - 2
     bunnies = [x for x in range(1, n_bunnies + 1)]
 
-    if has_negative_cycle(times):
-        return [x for x in range(1, n_bunnies)]
-
     distances = [bellman_ford(times, src) for src in range(len(times))]
+    if has_negative_cycle(distances):
+        return [x for x in range(n_bunnies)]
+
     # try to rescue maximum bunnies first then
     # try less and less until none can be saved
     for i in range(n_bunnies, 0, -1):
@@ -62,19 +62,3 @@ def path_time(path, distances):
         time += distances[src][dst]
 
     return time
-
-print(solution([
-    [0, 2, 2, 2, -1],
-    [9, 0, 2, 2, -1],
-    [9, 3, 0, 2, -1],
-    [9, 3, 2, 0, -1],
-    [9, 3, 2, 2, 0]], 1))
-# [1, 2]
-
-print(solution([
-    [0, 1, 1, 1, 1],
-    [1, 0, 1, 1, 1],
-    [1, 1, 0, 1, 1],
-    [1, 1, 1, 0, 1],
-    [1, 1, 1, 1, 0]], 3))
-# [0, 1]
